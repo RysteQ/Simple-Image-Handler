@@ -1,1 +1,1 @@
-# Grayscale converter
+# Simple Image Handler

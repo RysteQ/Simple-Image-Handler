@@ -7,9 +7,7 @@ pub enum ProcessTypeEnum {
     Resize,
     Grayscale,
     SingleOutColour,
-    ConvertToAsciiCharacters,
-
-    NON
+    ConvertToAsciiCharacters
 }
 
 pub struct command_struct {
@@ -21,7 +19,7 @@ pub struct command_struct {
 
 pub fn analyze_command(command_arguments_vector: Vec<String>) -> command_struct {
     let mut to_return: command_struct = command_struct { 
-        process_type: ProcessTypeEnum::NON, 
+        process_type: ProcessTypeEnum::Grayscale, 
         input_file: String::new(), 
         output_file: String::new(), 
         extra_parameters: vec![]

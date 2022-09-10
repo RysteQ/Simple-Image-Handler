@@ -10,15 +10,15 @@ pub enum ProcessTypeEnum {
     ConvertToAsciiCharacters
 }
 
-pub struct command_struct {
+pub struct CommandStruct {
     pub process_type: ProcessTypeEnum,
     pub input_file: String,
     pub output_file: String,
     pub extra_parameters: Vec<String>
 }
 
-pub fn analyze_command(command_arguments_vector: Vec<String>) -> command_struct {
-    let mut to_return: command_struct = command_struct { 
+pub fn analyze_command(command_arguments_vector: Vec<String>) -> CommandStruct {
+    let mut to_return: CommandStruct = CommandStruct { 
         process_type: ProcessTypeEnum::Grayscale, 
         input_file: String::new(), 
         output_file: String::new(), 

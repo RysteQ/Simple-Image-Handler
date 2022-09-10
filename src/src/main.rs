@@ -2,19 +2,28 @@ use std::env::args;
 
 mod analyze_command;
 
-use crate::analyze_command::command_struct;
+mod image_grayscale;
+mod image_resize;
+mod image_convert_to_ascii;
+mod image_single_out_colour;
+
+use crate::analyze_command::CommandStruct;
 use crate::analyze_command::analyze_command;
 use crate::analyze_command::ProcessTypeEnum;
+use crate::image_grayscale::grayscale_image;
 
 fn main() {
     let command_arguments: Vec<String> = args().collect();
+    
+    // DEBUG COMMAND
+    // let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-gs".to_string()];
 
     if command_arguments.len() < 4 {
         println!("Invalid argument count");
         std::process::exit(-1);
     }
 
-    let command: command_struct = analyze_command(command_arguments);
+    let command: CommandStruct = analyze_command(command_arguments);
 
     match command.process_type {
         ProcessTypeEnum::Grayscale => {
@@ -22,7 +31,7 @@ fn main() {
                 handle_error(-1, "Invalid extra parameters, there should be no extra arguments");
             }
 
-            // TODO: new file.rs for grayscale convertion
+            grayscale_image(command.input_file, command.output_file)
         },
 
         ProcessTypeEnum::Resize => {
@@ -77,8 +86,8 @@ fn check_arguments_validity(arguments_vector: Vec<String>, accepted_arguments: V
 fn valid_nums(numbers_vector: Vec<String>) -> bool {
     for i in 0..numbers_vector.len() {
         match numbers_vector[i].parse::<u32>() {
-            Ok(ok) => { },
-            Err(err) => {
+            Ok(_ok) => { },
+            Err(_err) => {
                 return false;
             }
         }

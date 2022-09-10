@@ -3,7 +3,7 @@ const GRAYSCALE_COMMAND: &str = "-gs";
 const SINGLE_OUT_COLOUR_COMMAND: &str = "-soc";
 const CONVERT_TO_ASCII_CHARACTER_COMMAND: &str = "-ctac";
 
-enum ProcessTypeEnum {
+pub enum ProcessTypeEnum {
     Resize,
     Grayscale,
     SingleOutColour,
@@ -12,14 +12,14 @@ enum ProcessTypeEnum {
     NON
 }
 
-struct command_struct {
-    process_type: ProcessTypeEnum,
-    input_file: String,
-    output_file: String,
-    extra_parameters: Vec<String>
+pub struct command_struct {
+    pub process_type: ProcessTypeEnum,
+    pub input_file: String,
+    pub output_file: String,
+    pub extra_parameters: Vec<String>
 }
 
-fn analyze_command(command_arguments_vector: Vec<String>) -> command_struct {
+pub fn analyze_command(command_arguments_vector: Vec<String>) -> command_struct {
     let mut to_return: command_struct = command_struct { 
         process_type: ProcessTypeEnum::NON, 
         input_file: String::new(), 

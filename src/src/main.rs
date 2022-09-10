@@ -26,14 +26,26 @@ fn main() {
         },
 
         ProcessTypeEnum::Resize => {
-            // TODO: Make it that it will accept any number for width and height
+            if command.extra_parameters.len() != 2 || valid_nums(command.extra_parameters) == false {
+                handle_error(-1, "Invalid extra parameters");
+            }
+
+            // TODO: new file.rs of image resize
         },
 
         ProcessTypeEnum::ConvertToAsciiCharacters => {
+            if check_arguments_validity(command.extra_parameters, vec![], 0) == false {
+                handle_error(-1, "Invalid extra parameters, there should be no extra arguments");
+            }
+
             // TODO: new file.rs for ASCII convertion
         },
 
         ProcessTypeEnum::SingleOutColour => {
+            if check_arguments_validity(command.extra_parameters, vec!["-red".to_string(), "-green".to_string(), "-blue".to_string()], 0) == false {
+                handle_error(-1, "Invalid extra parameters, there should be no extra arguments");
+            }
+
             // TODO: new file.rs to single out a certain colour in an image
         }
     }
@@ -60,6 +72,19 @@ fn check_arguments_validity(arguments_vector: Vec<String>, accepted_arguments: V
     }
 
     return false;
+}
+
+fn valid_nums(numbers_vector: Vec<String>) -> bool {
+    for i in 0..numbers_vector.len() {
+        match numbers_vector[i].parse::<u32>() {
+            Ok(ok) => { },
+            Err(err) => {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 // TODO: maybe add a description parameter for how a command should be structured ?

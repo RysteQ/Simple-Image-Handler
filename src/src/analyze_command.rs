@@ -40,6 +40,11 @@ pub fn analyze_command(command_arguments_vector: Vec<String>) -> CommandStruct {
     to_return.input_file = command_arguments_vector[1].to_string();
     to_return.output_file = command_arguments_vector[2].to_string();
 
+    if to_return.input_file == to_return.output_file {
+        println!("Input and output paths cannot be the same");
+        std::process::exit(-1);
+    }
+
     if command_arguments_vector.len() > 4 {
         to_return.extra_parameters = command_arguments_vector[4..].to_vec();
     }

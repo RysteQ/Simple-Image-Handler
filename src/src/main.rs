@@ -1,4 +1,5 @@
 use std::env::args;
+use std::vec;
 
 mod analyze_command;
 
@@ -12,12 +13,13 @@ use crate::analyze_command::analyze_command;
 use crate::analyze_command::ProcessTypeEnum;
 use crate::image_grayscale::grayscale_image;
 use crate::image_resize::resize_image;
+use crate::image_single_out_colour::single_out_colour;
 
 fn main() {
     let command_arguments: Vec<String> = args().collect();
     
     // DEBUG COMMAND
-    // let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-rs".to_string(), "100".to_string(), "100".to_string()];
+    // let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-soc".to_string(), "-blue".to_string()];
 
     if command_arguments.len() < 4 {
         println!("Invalid argument count");
@@ -55,11 +57,20 @@ fn main() {
         },
 
         ProcessTypeEnum::SingleOutColour => {
-            if check_arguments_validity(command.extra_parameters, vec!["-red".to_string(), "-green".to_string(), "-blue".to_string()], 0) == false {
-                handle_error(-1, "Invalid extra parameters, there should be no extra arguments");
+            if check_arguments_validity(command.extra_parameters.clone(), vec!["-red".to_string(), "-green".to_string(), "-blue".to_string()], 1) == false {
+                handle_error(-1, "Invalid extra parameters, there should be one extra arguments");
             }
 
-            // TODO: new file.rs to single out a certain colour in an image
+            let mut colour_multiplier_vector: Vec<u8> = vec![0, 0, 0];
+
+            match command.extra_parameters[0].as_str() {
+                "-red" => colour_multiplier_vector = vec![1, 0, 0],
+                "-green" => colour_multiplier_vector = vec![0, 1, 0],
+                "-blue" => colour_multiplier_vector = vec![0, 0, 1],
+                _ => { }
+            }
+
+            single_out_colour(command.input_file, command.output_file, colour_multiplier_vector);
         }
     }
 

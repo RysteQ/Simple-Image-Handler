@@ -2,12 +2,14 @@ const RESIZE_COMMAND: &str = "-rs";
 const GRAYSCALE_COMMAND: &str = "-gs";
 const SINGLE_OUT_COLOUR_COMMAND: &str = "-soc";
 const CONVERT_TO_ASCII_CHARACTER_COMMAND: &str = "-ctac";
+const BLUR_COMMAND: &str = "-blur";
 
 pub enum ProcessTypeEnum {
     Resize,
     Grayscale,
     SingleOutColour,
-    ConvertToAsciiCharacters
+    ConvertToAsciiCharacters,
+    Blur
 }
 
 pub struct CommandStruct {
@@ -30,6 +32,7 @@ pub fn analyze_command(command_arguments_vector: Vec<String>) -> CommandStruct {
         GRAYSCALE_COMMAND => to_return.process_type = ProcessTypeEnum::Grayscale,
         SINGLE_OUT_COLOUR_COMMAND => to_return.process_type = ProcessTypeEnum::SingleOutColour,
         CONVERT_TO_ASCII_CHARACTER_COMMAND => to_return.process_type = ProcessTypeEnum::ConvertToAsciiCharacters,
+        BLUR_COMMAND => to_return.process_type = ProcessTypeEnum::Blur,
 
         _ => { 
             println!("Error analyzing command, unknown operation {}", command_arguments_vector[3]);

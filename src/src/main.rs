@@ -22,7 +22,11 @@ fn main() {
     // DEBUG COMMAND
     // command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/pa.png".to_string(), "/home/rysteq/Downloads/birb_out.txt".to_string(), "-ctac".to_string()];
 
-    if command_arguments.len() < 4 {
+    if command_arguments.len() == 2 {
+        if command_arguments[1] == "-help" {
+            // TODO
+        }
+    } else if command_arguments.len() < 4 {
         println!("Invalid argument count");
         std::process::exit(-1);
     }
@@ -72,6 +76,14 @@ fn main() {
             }
 
             single_out_colour(command.input_file, command.output_file, colour_multiplier_vector);
+        }
+
+        ProcessTypeEnum::Blur => {
+            if check_arguments_validity(command.extra_parameters, vec![], 0) == false {
+                handle_error(-1, "Invalid extra parameters, there should be no extra arguments");
+            }
+
+
         }
     }
 

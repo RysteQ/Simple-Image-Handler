@@ -24,10 +24,10 @@ use crate::image_single_out_colour::single_out_colour;
 use crate::image_blur::blur;
 
 fn main() {
-    let command_arguments: Vec<String> = args().collect();
+    // let command_arguments: Vec<String> = args().collect();
     
     // DEBUG COMMAND
-    // command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/pa.png".to_string(), "/home/rysteq/Downloads/birb_out.txt".to_string(), "-ctac".to_string()];
+    let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-blur".to_string(), "1.3".to_string()];
 
     if command_arguments.len() < 4 {
         show_help();
@@ -45,7 +45,7 @@ fn main() {
         },
 
         ProcessTypeEnum::Resize => {
-            if command.extra_parameters.len() != 2 || valid_nums(command.extra_parameters.clone()) == false {
+            if command.extra_parameters.len() != 2 {
                 handle_error(-1, "Invalid extra parameters");
             }
 
@@ -81,11 +81,13 @@ fn main() {
         }
 
         ProcessTypeEnum::Blur => {
-            if check_arguments_validity(command.extra_parameters, vec![], 0) == false {
+            if command.extra_parameters.len() != 1  {
                 handle_error(-1, "Invalid extra parameters, there should be no extra arguments");
             }
 
-            blur(command.input_file, command.output_file);
+            let sigma: f32 = command.extra_parameters[0].clone().parse::<f32>().expect("Error converting string to float");
+
+            blur(command.input_file, command.output_file, sigma);
         }
     }
 
@@ -111,19 +113,6 @@ fn check_arguments_validity(arguments_vector: Vec<String>, accepted_arguments: V
     }
 
     return false;
-}
-
-fn valid_nums(numbers_vector: Vec<String>) -> bool {
-    for i in 0..numbers_vector.len() {
-        match numbers_vector[i].parse::<u32>() {
-            Ok(_ok) => { },
-            Err(_err) => {
-                return false;
-            }
-        }
-    }
-
-    return true;
 }
 
 // TODO: maybe add a description parameter for how a command should be structured ?

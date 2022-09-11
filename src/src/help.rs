@@ -6,6 +6,8 @@ pub fn show_help() {
     println!("\tSingle out colour: -soc {{colour (-red / -green / -blue)}}");
     println!("\tConvert to ASCII: -ctac");
     println!("\tBlur: -blur");
+    println!("\tRotate: -rt {{degrees (90 / 180 / 270}}");
+    println!("\tCrop: -crop {{start_x start_y end_x end_y}}");
 
     println!();
 

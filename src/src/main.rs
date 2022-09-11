@@ -88,6 +88,22 @@ fn main() {
 
             blur(command.input_file, command.output_file, sigma);
         }
+
+        ProcessTypeEnum::Rotate => {
+            if command.extra_parameters.len() != 1 {
+                handle_error(-1, "Invalid extra parameters, there should be one extra argument");
+            }
+
+            // TODO
+        }
+
+        ProcessTypeEnum::Crop => {
+            if command.extra_parameters.len() != 4 {
+                handle_error(-1, "Invalid extra parameters, there should be four extra arguments");
+            }
+
+            // TODO
+        }
     }
 
     // TODO: print out the ms it took to finish the operation
@@ -121,7 +137,6 @@ fn input_file_exists(input_file_location: String) {
     }
 }
 
-// TODO: maybe add a description parameter for how a command should be structured ?
 fn handle_error(error_code: i32, error_msg: &str) {
     println!("{error_msg}");
     std::process::exit(error_code);

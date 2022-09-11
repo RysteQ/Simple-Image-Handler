@@ -24,16 +24,17 @@ use crate::image_single_out_colour::single_out_colour;
 use crate::image_blur::blur;
 
 fn main() {
-    let command_arguments: Vec<String> = args().collect();
+    // let command_arguments: Vec<String> = args().collect();
     
     // DEBUG COMMAND
-    // let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-blur".to_string(), "1.3".to_string()];
+    let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-blur".to_string(), "1.3".to_string()];
 
     if command_arguments.len() < 4 {
         show_help();
     }
 
     let command: CommandStruct = analyze_command(command_arguments);
+    input_file_exists(command.input_file.clone());
 
     match command.process_type {
         ProcessTypeEnum::Grayscale => {
@@ -113,6 +114,13 @@ fn check_arguments_validity(arguments_vector: Vec<String>, accepted_arguments: V
     }
 
     return false;
+}
+
+fn input_file_exists(input_file_location: String) {
+    if std::path::Path::new(input_file_location.as_str()).exists() == false {
+        println!("Input file does not exist");
+        std::process::exit(-1);
+    }
 }
 
 // TODO: maybe add a description parameter for how a command should be structured ?

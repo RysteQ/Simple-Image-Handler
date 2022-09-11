@@ -11,6 +11,7 @@ mod image_single_out_colour;
 use crate::analyze_command::CommandStruct;
 use crate::analyze_command::analyze_command;
 use crate::analyze_command::ProcessTypeEnum;
+use crate::image_convert_to_ascii::convert_image_to_ascii;
 use crate::image_grayscale::grayscale_image;
 use crate::image_resize::resize_image;
 use crate::image_single_out_colour::single_out_colour;
@@ -19,7 +20,7 @@ fn main() {
     let command_arguments: Vec<String> = args().collect();
     
     // DEBUG COMMAND
-    // let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-soc".to_string(), "-blue".to_string()];
+    // command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/pa.png".to_string(), "/home/rysteq/Downloads/birb_out.txt".to_string(), "-ctac".to_string()];
 
     if command_arguments.len() < 4 {
         println!("Invalid argument count");
@@ -53,7 +54,7 @@ fn main() {
                 handle_error(-1, "Invalid extra parameters, there should be no extra arguments");
             }
 
-            // TODO: new file.rs for ASCII convertion
+            convert_image_to_ascii(command.input_file, command.output_file)
         },
 
         ProcessTypeEnum::SingleOutColour => {

@@ -13,9 +13,7 @@ mod image_blur;
 
 use crate::help::show_help;
 
-use crate::analyze_command::CommandStruct;
-use crate::analyze_command::analyze_command;
-use crate::analyze_command::ProcessTypeEnum;
+use crate::analyze_command::{ CommandStruct, analyze_command, ProcessTypeEnum };
 
 use crate::image_convert_to_ascii::convert_image_to_ascii;
 use crate::image_grayscale::grayscale_image;

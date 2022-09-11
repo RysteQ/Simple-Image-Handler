@@ -3,18 +3,25 @@ use std::vec;
 
 mod analyze_command;
 
+mod help;
+
 mod image_grayscale;
 mod image_resize;
 mod image_convert_to_ascii;
 mod image_single_out_colour;
+mod image_blur;
+
+use crate::help::show_help;
 
 use crate::analyze_command::CommandStruct;
 use crate::analyze_command::analyze_command;
 use crate::analyze_command::ProcessTypeEnum;
+
 use crate::image_convert_to_ascii::convert_image_to_ascii;
 use crate::image_grayscale::grayscale_image;
 use crate::image_resize::resize_image;
 use crate::image_single_out_colour::single_out_colour;
+use crate::image_blur::blur;
 
 fn main() {
     let command_arguments: Vec<String> = args().collect();
@@ -22,13 +29,8 @@ fn main() {
     // DEBUG COMMAND
     // command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/pa.png".to_string(), "/home/rysteq/Downloads/birb_out.txt".to_string(), "-ctac".to_string()];
 
-    if command_arguments.len() == 2 {
-        if command_arguments[1] == "-help" {
-            // TODO
-        }
-    } else if command_arguments.len() < 4 {
-        println!("Invalid argument count");
-        std::process::exit(-1);
+    if command_arguments.len() < 4 {
+        show_help();
     }
 
     let command: CommandStruct = analyze_command(command_arguments);
@@ -83,7 +85,7 @@ fn main() {
                 handle_error(-1, "Invalid extra parameters, there should be no extra arguments");
             }
 
-
+            blur(command.input_file, command.output_file);
         }
     }
 

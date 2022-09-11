@@ -11,12 +11,13 @@ use crate::analyze_command::CommandStruct;
 use crate::analyze_command::analyze_command;
 use crate::analyze_command::ProcessTypeEnum;
 use crate::image_grayscale::grayscale_image;
+use crate::image_resize::resize_image;
 
 fn main() {
     let command_arguments: Vec<String> = args().collect();
     
     // DEBUG COMMAND
-    // let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-gs".to_string()];
+    // let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-rs".to_string(), "100".to_string(), "100".to_string()];
 
     if command_arguments.len() < 4 {
         println!("Invalid argument count");
@@ -35,11 +36,14 @@ fn main() {
         },
 
         ProcessTypeEnum::Resize => {
-            if command.extra_parameters.len() != 2 || valid_nums(command.extra_parameters) == false {
+            if command.extra_parameters.len() != 2 || valid_nums(command.extra_parameters.clone()) == false {
                 handle_error(-1, "Invalid extra parameters");
             }
 
-            // TODO: new file.rs of image resize
+            let width: u32 =  command.extra_parameters[0].clone().parse::<u32>().expect("Error converting string to u32");
+            let height: u32 = command.extra_parameters[1].clone().parse::<u32>().expect("Error converting string to u32");
+
+            resize_image(command.input_file, command.output_file, width, height);            
         },
 
         ProcessTypeEnum::ConvertToAsciiCharacters => {

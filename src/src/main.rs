@@ -24,10 +24,10 @@ use crate::image_single_out_colour::single_out_colour;
 use crate::image_blur::blur;
 
 fn main() {
-    // let command_arguments: Vec<String> = args().collect();
+    let command_arguments: Vec<String> = args().collect();
     
     // DEBUG COMMAND
-    let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-blur".to_string(), "1.3".to_string()];
+    // let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-blur".to_string(), "1.3".to_string()];
 
     if command_arguments.len() < 4 {
         show_help();

@@ -10,22 +10,23 @@ mod image_resize;
 mod image_convert_to_ascii;
 mod image_single_out_colour;
 mod image_blur;
+mod image_rotate;
+mod image_crop;
 
 use crate::help::show_help;
 
 use crate::analyze_command::{ CommandStruct, analyze_command, ProcessTypeEnum };
 
 use crate::image_convert_to_ascii::convert_image_to_ascii;
+use crate::image_crop::crop_image;
 use crate::image_grayscale::grayscale_image;
 use crate::image_resize::resize_image;
 use crate::image_single_out_colour::single_out_colour;
 use crate::image_blur::blur;
+use crate::image_rotate::rotate_image;
 
 fn main() {
     let command_arguments: Vec<String> = args().collect();
-    
-    // DEBUG COMMAND
-    // let command_arguments: Vec<String> = vec!["simple_image_handler".to_string(), "/home/rysteq/Downloads/birb.jpg".to_string(), "/home/rysteq/Downloads/birb_out.jpg".to_string(), "-blur".to_string(), "1.3".to_string()];
 
     if command_arguments.len() < 4 {
         show_help();
@@ -94,7 +95,7 @@ fn main() {
                 handle_error(-1, "Invalid extra parameters, there should be one extra argument");
             }
 
-            // TODO
+            rotate_image(command.input_file, command.output_file, command.extra_parameters[0].to_string());   
         }
 
         ProcessTypeEnum::Crop => {
@@ -102,7 +103,12 @@ fn main() {
                 handle_error(-1, "Invalid extra parameters, there should be four extra arguments");
             }
 
-            // TODO
+            let start_x: u32 = command.extra_parameters[0].to_string().parse::<u32>().expect("Error converting string to u32");
+            let start_y: u32 = command.extra_parameters[1].to_string().parse::<u32>().expect("Error converting string to u32");
+            let end_x: u32 = command.extra_parameters[2].to_string().parse::<u32>().expect("Error converting string to u32");
+            let end_y: u32 = command.extra_parameters[3].to_string().parse::<u32>().expect("Error converting string to u32");
+
+            crop_image(command.input_file, command.output_file, start_x, start_y, end_x, end_y);
         }
     }
 
